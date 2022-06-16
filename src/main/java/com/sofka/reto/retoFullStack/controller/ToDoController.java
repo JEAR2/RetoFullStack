@@ -1,5 +1,6 @@
 package com.sofka.reto.retoFullStack.controller;
 
+import com.sofka.reto.retoFullStack.model.ToDoListModel;
 import com.sofka.reto.retoFullStack.model.ToDoModel;
 import com.sofka.reto.retoFullStack.service.ToDoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,26 @@ public class ToDoController {
     }
 
 
+    @PutMapping(path = "/update/{id}")
+    public ToDoModel updateTodoList(@RequestBody ToDoModel todo,@PathVariable("id") Long id) throws Exception{
+        return toDoService.finById(id)
+                .map(toDoModel -> {
+                    toDoModel.setName(todo.getName());
+                    try {
+                        return toDoService.save(toDoModel);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .orElseGet(() -> {
+                    todo.setId(id);
+                    try {
+                        return toDoService.save(todo);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+    }
 
 
 
