@@ -1,11 +1,14 @@
 package com.sofka.reto.retoFullStack.service;
 
 import com.sofka.reto.retoFullStack.model.ToDoListModel;
+import com.sofka.reto.retoFullStack.model.ToDoModel;
 import com.sofka.reto.retoFullStack.repository.ToDoListRepository;
+import com.sofka.reto.retoFullStack.repository.ToDoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,6 +16,9 @@ import java.util.Optional;
 public class ToDoListService implements CrudService<ToDoListModel,Long>{
     @Autowired
     private ToDoListRepository toDoListRepository;
+
+    @Autowired
+    private ToDoRepository toDoRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -22,7 +28,7 @@ public class ToDoListService implements CrudService<ToDoListModel,Long>{
 
     @Transactional
     @Override
-    public ToDoListModel Save(ToDoListModel toDoListModel) throws Exception {
+    public ToDoListModel save(ToDoListModel toDoListModel) throws Exception {
         return toDoListRepository.save(toDoListModel);
     }
 
@@ -54,4 +60,16 @@ public class ToDoListService implements CrudService<ToDoListModel,Long>{
     public void deleteAll() throws Exception {
         toDoListRepository.deleteAll();
     }
+
+    public List<ToDoListModel> finByIdTodo(Long id) throws Exception {
+        Optional<ToDoModel> toDoModel = toDoRepository.findById(id);
+        List<ToDoListModel> toDoListModels = new ArrayList<>();
+        for (ToDoListModel element: findAll() ) {
+            if(element.getTodo().getId().equals(toDoModel.get().getId())){
+                toDoListModels.add(element);
+            }
+        }
+        return toDoListModels;
+    }
+
 }

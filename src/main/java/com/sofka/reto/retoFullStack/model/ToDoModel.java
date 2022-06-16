@@ -12,8 +12,8 @@ public class ToDoModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "todo")
-    private List<ToDoListModel> toDoList;
+
+
 
 
 

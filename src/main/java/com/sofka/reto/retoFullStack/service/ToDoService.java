@@ -27,7 +27,7 @@ public class ToDoService implements CrudService<ToDoModel,Long>{
 
     @Override
     @Transactional
-    public ToDoModel Save(ToDoModel toDoModel) throws Exception {
+    public ToDoModel save(ToDoModel toDoModel) throws Exception {
         return toDoRepository.save(toDoModel);
     }
 
